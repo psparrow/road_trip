@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: road_trip_development
+  pool: 5
+  username: postgres
+  password:
+
+test: &test
+  adapter: postgresql
+  encoding: unicode
+  database: road_trip_test
+  pool: 5
+  username: postgres
+  password:
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: road_trip_production
+  pool: 5
+  username: road_trip
+  password:
+
+cucumber:
+  <<: *test

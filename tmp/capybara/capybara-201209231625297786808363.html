@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Road Trip Planner</title>
+<link href="/assets/application.css" media="all" rel="stylesheet" type="text/css">
+<script src="/assets/application.js" type="text/javascript"></script>
+</head>
+<body>
+<p class="notice">
+
+</p>
+<p class="alert">
+
+</p>
+<h2>Sign up</h2>
+
+<form accept-charset="UTF-8" action="/users" class="new_user" id="new_user" method="post">
+<div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div>
+  
+
+  <div>
+<label for="user_email">Email</label><br><input id="user_email" name="user[email]" size="30" type="email" value="">
+</div>
+
+  <div>
+<label for="user_password">Password</label><br><input id="user_password" name="user[password]" size="30" type="password">
+</div>
+
+  <div>
+<label for="user_password_confirmation">Password confirmation</label><br><input id="user_password_confirmation" name="user[password_confirmation]" size="30" type="password">
+</div>
+
+  <div><input name="commit" type="submit" value="Sign up"></div>
+</form>
+  <a href="/users/sign_in">Sign in</a><br><a href="/users/password/new">Forgot your password?</a><br>
+</body>
+</html>
