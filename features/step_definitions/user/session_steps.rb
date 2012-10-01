@@ -13,7 +13,7 @@ When /^I submit the login form$/ do
   click_button "Sign in"
 end
 
-Then /^I am logged into the site$/ do
+Then /^I am logged into the application$/ do
   page.current_path.should == root_path
   page.should have_content "Signed in successfully."
 end
