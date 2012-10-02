@@ -24,7 +24,10 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = Itinerary.find(params[:id])
+    @itinerary = Itinerary.where(
+      id: params[:id],
+      user_id: current_user.id
+    ).first
   end
 
 end
