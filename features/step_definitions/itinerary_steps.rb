@@ -6,7 +6,6 @@ end
 
 When /^I create an itinerary$/ do
   visit new_itinerary_path
-
   @itinerary = FactoryGirl.build(:itinerary)
   fill_in "Title", with: @itinerary.title
   click_button "Save"

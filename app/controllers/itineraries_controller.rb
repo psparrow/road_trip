@@ -11,7 +11,9 @@ class ItinerariesController < ApplicationController
   end
 
   def create
-    @itinerary = Itinerary.new(params[:itinerary])
+    @itinerary = Itinerary.new(
+      params[:itinerary].merge(user_id: current_user)
+    )
 
     if @itinerary.save
       flash[:notice] = "Enjoy your trip!"
