@@ -1,4 +1,6 @@
 Given /^that I am registering for an account$/ do
+  visit root_path
+  click_link "Sign up"
   visit new_user_registration_path
   page.should have_content "Sign up"
 end

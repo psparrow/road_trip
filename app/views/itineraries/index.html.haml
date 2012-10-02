@@ -2,4 +2,4 @@
 
 - @itineraries.each do |itinerary|
   %p
-    = itinerary.title
+    = link_to itinerary.title, itinerary_path(itinerary)

@@ -1,1 +1,12 @@
-%h2 Enjoy your road trip!
+%h2 Road Trip
+
+- if current_user
+  %p
+    = link_to "My Itineraries", itineraries_path
+  %p
+    = link_to "Create an itinerary", new_itinerary_path
+- else
+  %p
+    = link_to "Login", new_user_session_path
+  %p
+    = link_to "Sign up", new_user_registration_path

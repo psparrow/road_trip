@@ -5,7 +5,9 @@ Given /^that I have a user account$/ do
 end
 
 When /^I submit the login form$/ do
-  visit new_user_session_path
+  visit root_path
+  click_link "Login"
+  page.current_path.should == new_user_session_path
 
   user = FactoryGirl.build(:user)
   fill_in "Login",    with: user.username

@@ -12,7 +12,7 @@ class ItinerariesController < ApplicationController
 
   def create
     @itinerary = Itinerary.new(
-      params[:itinerary].merge(user_id: current_user)
+      params[:itinerary].merge(user_id: current_user.id)
     )
 
     if @itinerary.save
@@ -21,6 +21,10 @@ class ItinerariesController < ApplicationController
     else
       render action: :new
     end
+  end
+
+  def show
+    @itinerary = Itinerary.find(params[:id])
   end
 
 end
