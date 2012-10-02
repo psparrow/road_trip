@@ -10,6 +10,7 @@ When /^I create an itinerary$/ do
   page.current_path.should == new_itinerary_path
   @itinerary = FactoryGirl.build(:itinerary)
   fill_in "Title", with: @itinerary.title
+  fill_in "Description", with: @itinerary.description
   click_button "Save"
 end
 
@@ -35,4 +36,5 @@ Then /^I can access each itinerary$/ do
   click_link @itinerary.title
   page.current_path.should == itinerary_path(@itinerary)
   page.should have_content @itinerary.title
+  page.should have_content @itinerary.description
 end
