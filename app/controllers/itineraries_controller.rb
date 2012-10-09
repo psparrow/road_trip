@@ -1,9 +1,7 @@
 class ItinerariesController < ApplicationController
 
-  before_filter :authenticate_user!
-
   def index
-    @itineraries = Itinerary.where("user_id = ?", current_user)
+    @itineraries = current_user.itineraries
   end
 
   def new
@@ -24,10 +22,7 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = Itinerary.where(
-      id: params[:id],
-      user_id: current_user.id
-    ).first
+    @itinerary = current_user.itineraries.find(params[:id])
   end
 
 end

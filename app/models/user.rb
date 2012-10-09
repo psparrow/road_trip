@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me,
                   :authentication_keys => [:login]
 
+  has_many :itineraries
+
   validates :username,
     length:     { in: 6..20 },
     uniqueness: { case_sensitive: false }

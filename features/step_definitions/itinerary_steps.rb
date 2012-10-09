@@ -1,35 +1,38 @@
+def create_itinerary
+  visit root_path
+  click_link "Create an itinerary"
+
+  @attr = FactoryGirl.attributes_for(:itinerary)
+  fill_in "Title", with: @attr[:title]
+  fill_in "Description", with: @attr[:description]
+  click_button "Save"
+end
+
 Given /^that I am a logged\-in user$/ do
-  step "that I have a user account"
-  step "I submit the login form"
-  step "I am logged into the application"
+  # The following functions are defined in user/registration_steps.rb
+  go_to_sign_up_page
+  sign_up
+  verify_registration
 end
 
 When /^I create an itinerary$/ do
-  visit root_path
-  click_link "Create an itinerary"
-  page.current_path.should == new_itinerary_path
-  @itinerary = FactoryGirl.build(:itinerary)
-  fill_in "Title", with: @itinerary.title
-  fill_in "Description", with: @itinerary.description
-  click_button "Save"
+  create_itinerary
 end
 
 Then /^it is listed in my itineraries$/ do
   page.current_path.should == itineraries_path
   page.should have_content "Enjoy your trip!"
-  page.should have_content @itinerary.title
+  page.should have_content @attr[:title]
 end
 
-Given /^I have an itinerary$/ do
-  step "I create an itinerary"
+And /^I have an itinerary$/ do
+  create_itinerary
   @itinerary = Itinerary.last
 end
 
 When /^I view my itinerary listing$/ do
   visit root_path
   click_link "My Itineraries"
-  page.current_path.should == itineraries_path
-  page.should have_content @itinerary.title
 end
 
 Then /^I can access each itinerary$/ do
