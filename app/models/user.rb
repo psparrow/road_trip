@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :itineraries
 
   validates :username,
-    length:     { in: 6..20 },
+    length:     { in: 2..20 },
     uniqueness: { case_sensitive: false }
 
   def self.find_first_by_auth_conditions(warden_conditions)
