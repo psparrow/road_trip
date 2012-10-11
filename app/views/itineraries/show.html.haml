@@ -3,3 +3,17 @@
 
 %p
   = @itinerary.description
+
+%h3
+  Stops
+
+- @itinerary.stops.each do |stop|
+  %div
+    = stop.title
+    = stop.description
+    = stop.city + " " + stop.state + " " + stop.zip_code
+    = link_to "More info", stop.url
+
+%p
+  = link_to "Add a Stop", new_itinerary_stop_path(@itinerary)
+
