@@ -1,8 +1,6 @@
 Given /^that I am a logged\-in user$/ do
-  # The following functions are defined in user/registration_steps.rb
   go_to_sign_up_page
   sign_up
-  verify_registration
 end
 
 When /^I create an itinerary$/ do

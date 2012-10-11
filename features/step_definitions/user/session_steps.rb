@@ -8,7 +8,7 @@ When /^I submit the login form$/ do
   click_link "Login"
 
   attr = FactoryGirl.attributes_for(:user)
-  fill_in "Login",    with: attr[:username]
+  fill_in "Login",    with: @user.username
   fill_in "Password", with: attr[:password]
   click_button "Sign in"
 end
