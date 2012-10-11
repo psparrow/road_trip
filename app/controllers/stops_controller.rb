@@ -7,9 +7,9 @@ class StopsController < ApplicationController
   def create
     @itinerary = Itinerary.find(params[:itinerary_id])
 
-    @stop = @itinerary.stops.build(params[:stop].merge(
-      user_id: current_user.id
-    ))
+    @stop = @itinerary.stops.build(
+      params[:stop].merge(user_id: current_user.id)
+    )
 
     if @stop.save
       flash[:notice] = "Sounds like fun!"
@@ -17,5 +17,6 @@ class StopsController < ApplicationController
     else
       render :new
     end
+
   end
 end
