@@ -24,3 +24,13 @@ def verify_registration
   user.email.should == @user.email
   user.username.should == @user.username
 end
+
+def create_itinerary
+  visit root_path
+  click_link "Create an itinerary"
+
+  @attr = FactoryGirl.attributes_for(:itinerary)
+  fill_in "Title", with: @attr[:title]
+  fill_in "Description", with: @attr[:description]
+  click_button "Save"
+end

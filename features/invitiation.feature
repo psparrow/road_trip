@@ -13,6 +13,5 @@ Feature: Itinerary Invitations
     And I have an itinerary
     When I give a non-user access to the itinerary
     Then they are sent an invitation to the join
-    When they follow the join link
-    And create an account
+    When they join via the join link
     Then the itinerary is listed in their itineraries
