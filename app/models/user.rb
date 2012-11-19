@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -10,7 +9,16 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me,
                   :authentication_keys => [:login]
 
+  has_many :contributors
   has_many :itineraries
+
+  def shared_itineraries
+    contributors.map { |c| c.itinerary }
+  end
+
+  def all_itineraries
+    itineraries + shared_itineraries
+  end
 
   validates :username,
     length:     { in: 2..20 },

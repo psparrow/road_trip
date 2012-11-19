@@ -1,7 +1,14 @@
 class ItinerariesController < ApplicationController
 
   def index
-    @itineraries = current_user.itineraries
+    invitations = Invitation.where(email: current_user.email)
+    invitations.each do |i|
+      Contributor.create!(
+        user_id:       current_user.id,
+        itinerary_id:  i.itinerary_id
+      )
+    end
+    @itineraries = current_user.all_itineraries
   end
 
   def new

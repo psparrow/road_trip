@@ -5,6 +5,9 @@
 # files.
 
 require 'cucumber/rails'
+require 'capybara/email'
+
+World(Capybara::Email::DSL)
 
 # Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
 # order to ease the transition to Capybara we set the default here. If you'd
