@@ -9,8 +9,14 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me,
                   :authentication_keys => [:login]
 
-  has_many :contributors
-  has_many :itineraries
+  has_many :contributors, :itineraries
+  has_many :shares,
+    through: :contributors,
+    class_name: "Itinerary"
+
+  validates :username,
+    length:     { in: 2..20 },
+    uniqueness: { case_sensitive: false }
 
   def shared_itineraries
     contributors.map { |c| c.itinerary }
@@ -20,20 +26,16 @@ class User < ActiveRecord::Base
     itineraries + shared_itineraries
   end
 
-  validates :username,
-    length:     { in: 2..20 },
-    uniqueness: { case_sensitive: false }
-
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
       where(conditions).where([
         "lower(username) = :value OR lower(email) = :value",
-        { :value => login.downcase }]
-      ).first
+        { :value => login.downcase }
+      ]).first
     else
       where(conditions).first
     end
   end
 
-end
+ end

@@ -1,13 +1,9 @@
 When /^I give an existing user access to the itinerary$/ do
+  @itinerary = Itinerary.last
   @invitee   = FactoryGirl.build(:user)
   @invitee.save
-  @itinerary = Itinerary.last
 
-  send_invitation(
-    email:     @invitee.email,
-    itinerary: @itinerary
-  )
-
+  send_invitation(email: @invitee.email, itinerary: @itinerary)
 end
 
 Then /^they are alerted about the itinerary$/ do
@@ -17,7 +13,9 @@ end
 
 When /^they follow the login link$/ do
   visit destroy_user_session_path
+
   current_email.click_link "Click here"
+
   fill_in "Login", with: @invitee.username
   fill_in "Password", with: @invitee.password
   click_button "Sign in"
@@ -39,12 +37,13 @@ end
 
 When /^they join via the join link$/ do
   visit destroy_user_session_path
+
   current_email.click_link "Click here"
+
   fill_in "Username", with: @invitee_attrs[:username]
   fill_in "Email",    with: @invitee_attrs[:email]
   fill_in "Password", with: @invitee_attrs[:password]
   fill_in "Password confirmation", with: @invitee_attrs[:password]
-
   click_button "Sign up"
 end
 
@@ -52,5 +51,3 @@ Then /^the itinerary is listed in their itineraries$/ do
   click_link "My Itineraries"
   page.should have_content(@itinerary.title)
 end
-
-

@@ -30,18 +30,17 @@ def create_itinerary
   click_link "Create an itinerary"
 
   @attr = FactoryGirl.attributes_for(:itinerary)
+
   fill_in "Title", with: @attr[:title]
   fill_in "Description", with: @attr[:description]
   click_button "Save"
 end
 
 def send_invitation(args = {})
-
   email, itinerary = args.values_at(:email, :itinerary)
 
   visit root_path
   click_link "My Itineraries"
-
   click_link itinerary.title
   click_link "Invite"
 

@@ -3,8 +3,6 @@ class Stop < ActiveRecord::Base
                   :city, :state, :zip_code,
                   :itinerary_id, :user_id
 
-  belongs_to :itinerary
-  belongs_to :user
-
+  belongs_to :itinerary, :user
   validates_presence_of :title, :itinerary_id, :user_id
 end
