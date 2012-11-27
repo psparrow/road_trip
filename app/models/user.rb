@@ -28,4 +28,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_or_invite_by_email!(args = {})
+    email, inviter = args.values_at :email, :invited_by
+
+    User.where(email: email).first || User.invite!(
+      { email: email, username: "User#{User.count}"},
+      inviter
+    )
+  end
+
 end

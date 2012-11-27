@@ -30,6 +30,7 @@ end
 
 group :test do
   gem 'cucumber-rails'
+  gem 'capybara-email'
   gem 'addressable', '~> 2.3.2'
   gem 'database_cleaner'
   gem 'factory_girl_rails', '~> 4.0'
