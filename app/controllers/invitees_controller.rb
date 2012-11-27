@@ -1,23 +1,20 @@
-class InvitationsController < ApplicationController
+class InviteesController < ApplicationController
 
   def new
-    @user      = User.new
     @itinerary = Itinerary.where(
       id:       params[:itinerary_id],
       user_id:  current_user.id
-    )
+    ).first
   end
 
   def create
-    @user = User.where(email: params[:user][:email]).first ||
+    @user = User.where(email: params[:invitee][:email]).first ||
       User.invite!({
-        :email => params[:user][:email],
+        :email => params[:invitee][:email],
         :username  => "User#{User.count}"
       },
         current_user
       )
-
-
   end
 
 end

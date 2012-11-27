@@ -1,4 +1,4 @@
-= form_for([@itinerary, @user], url: itinerary_invitations_path) do |f|
+= form_for([@itinerary, @itinerary.invitees.new ]) do |f|
   %div
     = f.label :email
     = f.text_field :email
