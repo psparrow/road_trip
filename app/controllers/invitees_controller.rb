@@ -1,30 +1,32 @@
 class InviteesController < ApplicationController
 
   def new
-    @itinerary = Itinerary.where(
-      id:       params[:itinerary_id],
-      user_id:  current_user.id
-    ).first
-
+    @itinerary = current_user.itineraries.find(params[:itinerary_id])
     @invitee = @itinerary.invitees.new
   end
 
   def create
-    user = User.find_or_invite_by_email!(
-      email:      params[:invitee][:email],
-      invited_by: current_user
-    )
+    @itinerary = current_user.itineraries.find(params[:itinerary_id])
 
-    @itinerary = Itinerary.where(
-      id:       params[:itinerary_id],
-      user_id:  current_user.id
-    ).first
+    user = User.where(email: params[:invitee][:email]).first
 
-    @invitee = @itinerary.invitees.build({
-      user_id: user.id,
-    })
+    if !user
+      user = User.invite!(
+        { email: params[:invitee][:email], username: "User#{User.count}" },
+        current_user
+      )
+      user_exists = false
+    else
+      user_exists = true
+    end
+
+    @invitee = @itinerary.invitees.build({ user_id: user.id })
 
     if @invitee.save
+      if user_exists
+        # Newly invited users already receive an email.  Another email should
+        # be sent to existing users alerting them about the shared itinerary
+      end
       flash[:notice] = "An invitation has been sent to #{user.email}"
       redirect_to @itinerary
     else

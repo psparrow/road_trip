@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
                   :authentication_keys => [:login]
 
   has_many :itineraries
+  has_many :invitees
 
   validates :username,
     length:     { in: 2..20 },
@@ -26,15 +27,6 @@ class User < ActiveRecord::Base
     else
       where(conditions).first
     end
-  end
-
-  def self.find_or_invite_by_email!(args = {})
-    email, inviter = args.values_at :email, :invited_by
-
-    User.where(email: email).first || User.invite!(
-      { email: email, username: "User#{User.count}"},
-      inviter
-    )
   end
 
 end

@@ -31,6 +31,20 @@ Then /^they can view the itinerary$/ do
 end
 
 And /^they can add stops to the itinerary$/ do
-  fail
+  click_link "Add a Stop"
+
+  attr = FactoryGirl.attributes_for(:another_stop)
+
+  fill_in "Title",       with: @attr[:title]
+  fill_in "Description", with: @attr[:description]
+  fill_in "Url",         with: @attr[:url]
+  fill_in "City",        with: @attr[:city]
+  fill_in "State",       with: @attr[:state]
+  click_button "Save"
+
+  page.should have_content(@attr[:title])
+  page.should have_content(@attr[:description])
+  page.should have_content(@attr[:city])
+  page.should have_content(@attr[:state])
 end
 

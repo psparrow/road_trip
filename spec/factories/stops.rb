@@ -10,4 +10,13 @@ FactoryGirl.define do
     user
     itinerary
   end
+
+  factory :another_stop, class: Stop do
+    title "Hotdog Johnnys"
+    description "Best hotdogs in NJ"
+    city "Buttzville"
+    state "NJ"
+    url "http://hotdogjohnnys.net"
+  end
+
 end
