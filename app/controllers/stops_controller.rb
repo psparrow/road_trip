@@ -1,11 +1,11 @@
 class StopsController < ApplicationController
 
   def new
-    @itinerary = Itinerary.find(params[:itinerary_id])
+    @itinerary = Itinerary.find_for_user(params[:itinerary_id], current_user)
   end
 
   def create
-    @itinerary = Itinerary.find(params[:itinerary_id])
+    @itinerary = Itinerary.find_for_user(params[:itinerary_id], current_user)
 
     @stop = @itinerary.stops.build(
       params[:stop].merge(user_id: current_user.id)

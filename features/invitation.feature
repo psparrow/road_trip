@@ -8,3 +8,4 @@ Feature: Invitations
     When they accept the invitation
     Then they can view the itinerary
     And they can add stops to the itinerary
+

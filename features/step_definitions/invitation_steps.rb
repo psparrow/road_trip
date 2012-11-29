@@ -47,4 +47,3 @@ And /^they can add stops to the itinerary$/ do
   page.should have_content(@attr[:city])
   page.should have_content(@attr[:state])
 end
-
