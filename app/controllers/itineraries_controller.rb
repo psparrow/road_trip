@@ -1,12 +1,7 @@
 class ItinerariesController < ApplicationController
 
   def index
-    @itineraries = current_user.itineraries.all
-
-    current_user.invitees.each do |invitee|
-       @itineraries << invitee.itinerary
-    end
-
+    @itineraries = itineraries_for_current_user
   end
 
   def new
@@ -14,9 +9,7 @@ class ItinerariesController < ApplicationController
   end
 
   def create
-    @itinerary = Itinerary.new(
-      params[:itinerary].merge(user_id: current_user.id)
-    )
+    @itinerary = current_user.itineraries.build(params[:itinerary])
 
     if @itinerary.save
       flash[:notice] = "Enjoy your trip!"
@@ -41,13 +34,7 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = Itinerary.find(params[:id])
-
-    if @itinerary.user_id != current_user.id &&
-      Invitee.where(user_id: current_user.id, itinerary_id: params[:id]) == []
-      flash[:notice] = "You can't do that!"
-      redirect_to root_path
-    end
+    @itinerary = itinerary_for_current_user(params[:id])
   end
 
 end

@@ -32,13 +32,13 @@ describe Itinerary do
     }
     context "itinerary created by user" do
       it "should return the itinerary" do
-        Itinerary.find_for_user(subject.id, @creator).should_not be_nil
+        Itinerary.find_for_user(subject.id, @creator).id.should eq subject.id
       end
     end
 
     context "itinerary user has been invited to" do
       it "should return the itinerary" do
-        Itinerary.find_for_user(subject.id, @invitee).should_not be_nil
+        Itinerary.find_for_user(subject.id, @invitee).id.should eq subject.id
       end
     end
 

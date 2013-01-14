@@ -12,6 +12,7 @@ When /^I add a stop to the itinerary$/ do
   click_link @attr[:title]
   click_link "Add a Stop"
 
+  @stop_count = Stop.count
   @stop_attr = FactoryGirl.attributes_for(:stop)
   fill_in "Title",       with: @stop_attr[:title]
   fill_in "Description", with: @stop_attr[:description]
@@ -22,6 +23,9 @@ When /^I add a stop to the itinerary$/ do
 end
 
 Then /^it is listed in the stops$/ do
+
+  Stop.count.should == @stop_count + 1
+
   page.should have_content(@attr[:title])
   page.should have_content(@stop_attr[:title])
   page.should have_content(@stop_attr[:description])
