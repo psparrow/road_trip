@@ -9,19 +9,11 @@ class InviteesController < ApplicationController
   def new
     @invitee = Invitee.new
   end
-
   def create
-    user = User.where(email: params[:invitee][:email]).first
-
-    if !user
-      user = User.invite!(
-        { email: params[:invitee][:email], username: "User#{User.count}" },
-        current_user
-      )
-      user_exists = false
-    else
-      user_exists = true
-    end
+    user, user_exists = User.find_or_invite_user_by_email(
+      params[:invitee][:email],
+      current_user
+    )
 
     @invitee = @itinerary.invitees.build({ user_id: user.id })
 
