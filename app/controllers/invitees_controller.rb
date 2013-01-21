@@ -11,7 +11,7 @@ class InviteesController < ApplicationController
   end
 
   def create
-    user = UserInviter.find_or_invite_by_email(
+    user = User.find_or_invite_by_email(
       params[:invitee][:email],
       current_user
     )

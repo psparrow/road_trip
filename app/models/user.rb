@@ -29,4 +29,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_or_invite_by_email(email, inviter)
+    user = where(:email => email).first
+
+    if user
+      exists = true
+    else
+      user = invite!(
+        {email: email, username: "User#{self.count}" },
+        inviter
+      )
+      exists = false
+    end
+
+    user.define_singleton_method("exists?") do
+      exists
+    end
+
+    user
+  end
+
 end
