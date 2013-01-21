@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   attr_accessor :login
@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
                   :authentication_keys => [:login]
 
   has_many :itineraries
+  has_many :invitees
 
   validates :username,
     length:     { in: 2..20 },

@@ -17,6 +17,8 @@
 %p
   = link_to "Add a Stop", new_itinerary_stop_path(@itinerary)
 
-%p
-  = link_to "Edit", edit_itinerary_path(@itinerary)
-
+- if @itinerary.user_id == current_user.id
+  %p
+    = link_to "Edit", edit_itinerary_path(@itinerary)
+  %p
+    = link_to "Send Invitation", new_itinerary_invitee_path(@itinerary)

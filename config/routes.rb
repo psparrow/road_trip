@@ -5,6 +5,7 @@ RoadTrip::Application.routes.draw do
   resources :itineraries do
     shallow do
       resources :stops
+      resources :invitees
     end
   end
 

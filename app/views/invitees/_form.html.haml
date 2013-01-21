@@ -1,0 +1,5 @@
+= form_for([@itinerary, @invitee]) do |f|
+  %div
+    = f.label :email
+    = f.text_field :email
+  = f.submit "Send"

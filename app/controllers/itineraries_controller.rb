@@ -1,7 +1,13 @@
 class ItinerariesController < ApplicationController
 
+  before_filter :load_itinerary, only: [:edit, :update]
+
+  def load_itinerary
+    @itinerary = current_user.itineraries.find(params[:id])
+  end
+
   def index
-    @itineraries = current_user.itineraries
+    @itineraries = itineraries_for_current_user
   end
 
   def new
@@ -9,9 +15,7 @@ class ItinerariesController < ApplicationController
   end
 
   def create
-    @itinerary = Itinerary.new(
-      params[:itinerary].merge(user_id: current_user.id)
-    )
+    @itinerary = current_user.itineraries.build(params[:itinerary])
 
     if @itinerary.save
       flash[:notice] = "Enjoy your trip!"
@@ -22,11 +26,9 @@ class ItinerariesController < ApplicationController
   end
 
   def edit
-    @itinerary = current_user.itineraries.find(params[:id])
   end
 
   def update
-    @itinerary = current_user.itineraries.find(params[:id])
     if @itinerary.update_attributes(params[:itinerary])
       flash[:notice] = "The itinerary has been updated!"
       redirect_to itinerary_path(@itinerary)
@@ -36,7 +38,7 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = current_user.itineraries.find(params[:id])
+    @itinerary = itinerary_for_current_user(params[:id])
   end
 
 end
