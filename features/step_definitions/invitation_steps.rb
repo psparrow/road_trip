@@ -4,6 +4,7 @@ When /^I invite a non\-user to the itinerary$/ do
 
   @itinerary = Itinerary.last
   @invitee_email = "pat@test.net"
+
   click_link @itinerary.title
   click_link "Send Invitation"
 

@@ -29,16 +29,4 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_or_invite_user_by_email(email, inviter)
-    if user = self.where(email: email).first
-      [user, true]
-    else
-      user = self.invite!(
-        { email: email, username: "User#{self.count}" },
-        inviter
-      )
-      [user, false]
-    end
-  end
-
 end
