@@ -17,10 +17,8 @@ describe Itinerary do
   describe "#find_for_user" do
 
     before do
-      @creator = FactoryGirl.build(:user)
-      @creator.save
-      @invitee = FactoryGirl.build(:user)
-      @invitee.save
+      @creator = FactoryGirl.create(:user)
+      @invitee = FactoryGirl.create(:user)
     end
 
     subject {
@@ -32,20 +30,22 @@ describe Itinerary do
     }
     context "itinerary created by user" do
       it "should return the itinerary" do
-        Itinerary.find_for_user(subject.id, @creator).id.should eq subject.id
+        itinerary = Itinerary.find_for_user(subject.id, @creator)
+        itinerary.id.should eq subject.id
       end
     end
 
     context "itinerary user has been invited to" do
       it "should return the itinerary" do
-        Itinerary.find_for_user(subject.id, @invitee).id.should eq subject.id
+        itinerary = Itinerary.find_for_user(subject.id, @invitee)
+        itinerary.id.should eq subject.id
       end
     end
 
     context "itinerary user should not have access to" do
       it "raises an error" do
-        outsider = FactoryGirl.build(:user)
-        outsider.save
+        outsider = FactoryGirl.create(:user)
+
         expect {
           Itinerary.find_for_user(subject.id, outsider)
         }.to raise_error(ActiveRecord::RecordNotFound)

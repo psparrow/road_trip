@@ -1,0 +1,4 @@
+<p>You have been invited on a trip.</p>
+
+Click here to <%= link_to "Accept",
+  accept_user_invitation_url(@user, invitation_token: @user.invitation_token) %>  the invitation.

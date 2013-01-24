@@ -11,21 +11,18 @@ class InviteesController < ApplicationController
   end
 
   def create
-    user = User.find_or_invite_by_email(
-      params[:invitee][:email],
-      current_user
-    )
+    email = params[:invitee][:email]
 
-    @invitee = @itinerary.invitees.build(user_id: user.id)
-
-    if @invitee.save
-      if user.exists?
-        ExistingUserInvitation.notify(user, @itinerary).deliver
+    result = InviteeManager.invite_to(@itinerary, email: email) do |user, new|
+      if new
+        InvitationMailer.new_user(user, @itinerary).deliver
+      else
+        InvitationMailer.existing_user(user, @itinerary).deliver
       end
+    end
 
-      flash[:notice] = "An invitation has been sent to " <<
-                       "#{user.email}"
-
+    if result
+      flash[:notice] = "An invitation has been sent to #{email}"
       redirect_to @itinerary
     else
       render :new

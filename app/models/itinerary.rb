@@ -6,14 +6,11 @@ class Itinerary < ActiveRecord::Base
   validates_presence_of :title, :user_id
 
   def self.find_for_user(id, user)
-    invitee = Invitee.where(itinerary_id: id, user_id: user.id).first
-
-    if invitee
-      itinerary = invitee.itinerary
+    if invitee = Invitee.where(itinerary_id: id, user_id: user.id).first
+     invitee.itinerary
+    else
+      user.itineraries.find(id)
     end
-
-    itinerary = user.itineraries.find(id) if !itinerary
-    itinerary
   end
 
 end
