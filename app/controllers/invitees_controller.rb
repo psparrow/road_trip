@@ -11,16 +11,10 @@ class InviteesController < ApplicationController
   end
 
   def create
-    email = params[:invitee][:email]
+    manager = ContributorManager.new(@itinerary)
 
-    result = InviteeManager.
-      invite_to(@itinerary, email: email) do |user, new_user|
-        message = new_user ? :new_user : :existing_user
-        InvitationMailer.send(message, user, @itinerary).deliver
-      end
-
-    if result
-      flash[:notice] = "An invitation has been sent to #{email}"
+    if manager.add_by_email(params[:invitee][:email])
+      flash[:notice] = "An invitation has been sent!"
       redirect_to @itinerary
     else
       render :new

@@ -13,7 +13,7 @@ When /^I invite a non\-user to the itinerary$/ do
 end
 
 Then /^they are invited to join the site$/ do
-  page.should have_content("An invitation has been sent to #{@invitee_email}")
+  page.should have_content("An invitation has been sent")
 end
 
 When /^they accept the invitation$/ do

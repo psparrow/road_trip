@@ -13,4 +13,8 @@ class Itinerary < ActiveRecord::Base
     end
   end
 
+  def add_invitee(user)
+    invitees.create(user_id: user.id)
+  end
+
 end
