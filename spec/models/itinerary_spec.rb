@@ -17,17 +17,24 @@ describe Itinerary do
   describe "#find_for_user" do
 
     before do
-      @creator = FactoryGirl.create(:user)
-      @invitee = FactoryGirl.create(:user)
+      @creator      = FactoryGirl.create(:user)
+      @invited_user = FactoryGirl.create(:user)
+      @role         = FactoryGirl.create(:contributor_role)
     end
 
     subject {
-      itinerary = FactoryGirl.build(:itinerary)
-      itinerary.user = @creator
-      itinerary.invitees.build({ user_id: @invitee.id})
-      itinerary.save
+      itinerary = FactoryGirl.create(
+        :itinerary,
+        user: @creator )
+
+      itinerary.contributors.create(
+        user_id: @invited_user.id,
+        role_id: @role.id
+      )
+
       itinerary
     }
+
     context "itinerary created by user" do
       it "should return the itinerary" do
         itinerary = Itinerary.find_for_user(subject.id, @creator)
@@ -37,7 +44,7 @@ describe Itinerary do
 
     context "itinerary user has been invited to" do
       it "should return the itinerary" do
-        itinerary = Itinerary.find_for_user(subject.id, @invitee)
+        itinerary = Itinerary.find_for_user(subject.id, @invited_user)
         itinerary.id.should eq subject.id
       end
     end

@@ -3,12 +3,15 @@ When /^I invite a non\-user to the itinerary$/ do
   click_link "My Itineraries"
 
   @itinerary = Itinerary.last
-  @invitee_email = "pat@test.net"
+  @contributor_email = "pat@test.net"
+  @role = Role.find(2)
 
   click_link @itinerary.title
   click_link "Send Invitation"
 
-  fill_in "Email", with: @invitee_email
+  fill_in "Email", with: @contributor_email
+  select @role.title, from: "Role"
+
   click_button "Send"
 end
 
@@ -17,7 +20,7 @@ Then /^they are invited to join the site$/ do
 end
 
 When /^they accept the invitation$/ do
-  open_email(@invitee_email)
+  open_email(@contributor_email)
   current_email.click_link "Accept"
 
   fill_in "Password", with: "foobar"
@@ -56,17 +59,17 @@ When /^I invite an existing user to the itinerary$/ do
   click_link "My Itineraries"
 
   @itinerary = Itinerary.last
-  @invitee = FactoryGirl.create(:user)
+  @contributor = FactoryGirl.create(:user)
 
   click_link @itinerary.title
   click_link "Send Invitation"
 
-  fill_in "Email", with: @invitee.email
+  fill_in "Email", with: @contributor.email
   click_button "Send"
 end
 
 Then /^they are notified about the invitation$/ do
-  open_email(@invitee.email)
+  open_email(@contributor.email)
   current_email.should have_content "You have been invited on a trip."
   current_email.should have_content @itinerary.title
 end
@@ -79,7 +82,7 @@ When /^they login$/ do
 
   attr = FactoryGirl.attributes_for(:user)
 
-  fill_in "Login", with: @invitee.email
+  fill_in "Login", with: @contributor.email
   fill_in "Password", with: attr[:password]
 
   click_button "Sign in"

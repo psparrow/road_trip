@@ -1,3 +1,7 @@
+FactoryGirl.create(:admin_role)
+FactoryGirl.create(:contributor_role)
+FactoryGirl.create(:read_only_role)
+
 def go_to_sign_up_page
   visit root_path
   click_link "Sign up"

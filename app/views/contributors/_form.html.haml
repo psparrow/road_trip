@@ -1,0 +1,8 @@
+= form_for([@itinerary, @contributor]) do |f|
+  %div
+    = f.label :email
+    = f.text_field :email
+  %div
+    = f.label :role_id
+    = collection_select(:contributor, :role_id, Role.all, :id, :title)
+  = f.submit "Send"

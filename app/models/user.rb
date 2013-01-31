@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
                   :authentication_keys => [:login]
 
   has_many :itineraries
-  has_many :invitees
+  has_many :contributors
 
   validates :username,
     length:     { in: 2..20 },

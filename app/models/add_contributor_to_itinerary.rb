@@ -1,15 +1,19 @@
-class ContributorManager
+class AddContributorToItinerary
 
-  attr_reader :new_user, :user, :itinerary
+  attr_reader :new_user, :user, :itinerary, :contributor
 
-  def initialize(itinerary)
-    @itinerary = itinerary
+  def initialize(contributor, itinerary)
+    @itinerary   = itinerary
+    @contributor = contributor
   end
 
-  def add_by_email(email)
-    load_or_invite_user_by_email(email)
+  def perform
+    load_or_invite_user_by_email(contributor.email)
 
-    if itinerary.add_invitee(user)
+    contributor.user      = user
+    contributor.itinerary = itinerary
+
+    if contributor.save
       send_invitation
       true
     else

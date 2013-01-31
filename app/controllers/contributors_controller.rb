@@ -1,4 +1,4 @@
-class InviteesController < ApplicationController
+class ContributorsController < ApplicationController
 
   before_filter :load_itinerary
 
@@ -7,13 +7,18 @@ class InviteesController < ApplicationController
   end
 
   def new
-    @invitee = Invitee.new
+    @contributor = Contributor.new
   end
 
   def create
-    manager = ContributorManager.new(@itinerary)
+    @contributor = Contributor.new(params[:contributor])
 
-    if manager.add_by_email(params[:invitee][:email])
+    command = AddContributorToItinerary.new(
+      @contributor,
+      @itinerary
+    )
+
+    if command.perform
       flash[:notice] = "An invitation has been sent!"
       redirect_to @itinerary
     else

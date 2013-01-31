@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   def itineraries_for_current_user
     itineraries = current_user.itineraries.all
 
-    current_user.invitees.each do |invitee|
-      itineraries << invitee.itinerary
+    current_user.contributors.each do |contributor|
+      itineraries << contributor.itinerary
     end
 
     itineraries
