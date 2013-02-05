@@ -1,10 +1,11 @@
 class AddContributorToItinerary
 
-  attr_reader :new_user, :user, :itinerary, :contributor
+  attr_reader :new_user, :user, :itinerary, :contributor, :mailer
 
   def initialize(contributor, itinerary)
     @itinerary   = itinerary
     @contributor = contributor
+    @mailer      = InvitationMailer
   end
 
   def perform
@@ -34,7 +35,7 @@ class AddContributorToItinerary
 
   def send_invitation
     message = new_user ? :new_user : :existing_user
-    InvitationMailer.send(message, user, itinerary).deliver
+    mailer.send(message, user, itinerary).deliver
   end
 
 end

@@ -1,19 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!
+  before_filter :setup_security
+  attr_reader :security
 
-  def itineraries_for_current_user
-    itineraries = current_user.itineraries.all
-
-    current_user.contributors.each do |contributor|
-      itineraries << contributor.itinerary
-    end
-
-    itineraries
+  def setup_security
+    @security = ItinerarySecurity.new(current_user)
   end
 
-  def itinerary_for_current_user(itinerary_id)
-    Itinerary.find_for_user(itinerary_id, current_user)
+  def itineraries_for_current_user
+    ItineraryFinder.new(current_user).all
   end
 
 end

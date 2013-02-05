@@ -14,8 +14,9 @@
     = stop.city + " " + stop.state + " " + stop.zip_code
     = link_to "More info", stop.url
 
-%p
-  = link_to "Add a Stop", new_itinerary_stop_path(@itinerary)
+- if @can_add_stops
+  %p
+    = link_to "Add a Stop", new_itinerary_stop_path(@itinerary)
 
 - if @itinerary.user_id == current_user.id
   %p

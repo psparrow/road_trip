@@ -7,7 +7,7 @@ class ItinerariesController < ApplicationController
   end
 
   def index
-    @itineraries = itineraries_for_current_user
+    @itineraries = ItineraryFinder.new(current_user).all
   end
 
   def new
@@ -15,9 +15,9 @@ class ItinerariesController < ApplicationController
   end
 
   def create
-    @itinerary = current_user.itineraries.build(params[:itinerary])
+    @itinerary = Itinerary.new(params[:itinerary])
 
-    if @itinerary.save
+    if CreateNewItinerary.new(@itinerary, current_user).perform
       flash[:notice] = "Enjoy your trip!"
       redirect_to itineraries_path
     else
@@ -38,7 +38,13 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    @itinerary = itinerary_for_current_user(params[:id])
+    if security.can_view?(params[:id])
+      @itinerary     = Itinerary.find(params[:id])
+      @can_add_stops = security.can_add_stops?(params[:id])
+    else
+      flash[:notice] = "You can't view this!"
+      redirect_to itineraries_path
+    end
   end
 
 end

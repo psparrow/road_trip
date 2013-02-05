@@ -60,4 +60,10 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 require 'capybara/email'
 World(Capybara::Email::DSL)
 
+FactoryGirl.create(:administrator_role)
+FactoryGirl.create(:contributor_role)
+FactoryGirl.create(:read_only_role)
 
+ROLES = Role.all.each_with_object([]) do |role, roles|
+    roles[role.id] = role.title.downcase.gsub(/ /, '_').to_sym
+end

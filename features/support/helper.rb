@@ -1,6 +1,6 @@
-FactoryGirl.create(:admin_role)
-FactoryGirl.create(:contributor_role)
-FactoryGirl.create(:read_only_role)
+def get_role_factory_key(role)
+  role.downcase.gsub(/ /, '_') + '_role'
+end
 
 def go_to_sign_up_page
   visit root_path

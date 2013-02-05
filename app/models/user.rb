@@ -29,9 +29,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.invite_by_email(email)
+  def self.invite_by_email(email, skip_invitation = true)
     invite!(email: email, username: "User#{count}") do |u|
-      u.skip_invitation = true
+      u.skip_invitation = skip_invitation
     end
   end
 end
