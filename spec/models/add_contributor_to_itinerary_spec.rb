@@ -69,6 +69,11 @@ describe AddContributorToItinerary do
         subject.perform
       end
 
+      it "sets the user reference" do
+        subject.perform
+        subject.user.should == user
+      end
+
       it "sets new_user to true" do
         subject.perform
         subject.new_user.should == true
