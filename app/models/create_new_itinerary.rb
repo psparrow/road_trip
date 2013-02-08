@@ -7,14 +7,18 @@ class CreateNewItinerary
     @itinerary = itinerary
   end
 
-  def perform
-    itinerary.user_id = user.id
+  def setup_administrator
+    Contributor.create(
+      role_id:      ROLES.find_index(:administrator),
+      user_id:      user.id,
+      itinerary_id: itinerary.id
+    )
+  end
 
-    itinerary.save && Contributor.new(
-        user_id:      user.id,
-        itinerary_id: itinerary.id,
-        role_id:      ROLES.index(:administrator)
-      ).save
+  def perform
+    itinerary.user = user
+
+    itinerary.save && setup_administrator
   end
 
 end

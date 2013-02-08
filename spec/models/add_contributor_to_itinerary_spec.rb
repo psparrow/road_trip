@@ -1,21 +1,22 @@
 require 'spec_helper'
+require 'ostruct'
 
 describe AddContributorToItinerary do
 
+  subject { AddContributorToItinerary.new(contributor, itinerary) }
+
   let(:itinerary)   { double("itinerary", add_contributor: true) }
   let(:user)        { double("user", email: "frank@booth.com" ) }
-  let(:contributor) { double("contributor", role_id: 1, email: "frank@booth.com", save: true) }
   let(:mailer_mock) { double("mailer", deliver: true) }
-
-  subject { AddContributorToItinerary.new(contributor, itinerary) }
+  let(:contributor) {
+    OpenStruct.new(role_id: 1, email: "frank@booth.com", save: true)
+  }
 
   describe "#perform" do
 
     before do
       InvitationMailer.stub(:existing_user).and_return(mailer_mock)
       InvitationMailer.stub(:new_user).and_return(mailer_mock)
-      contributor.stub("user=")
-      contributor.stub("itinerary=")
     end
 
     context "When the user already exists" do
@@ -40,17 +41,18 @@ describe AddContributorToItinerary do
       end
 
       it "adds the user to the contributor" do
-        contributor.should_receive("user=").with(user)
         subject.perform
+        contributor.user.should == user
       end
 
       it "adds the itinerary to the contributor" do
-        contributor.should_receive("itinerary=").with(itinerary)
         subject.perform
+        contributor.itinerary.should == itinerary
       end
 
       it "sends a existing user message to the user" do
         InvitationMailer.should_receive(:existing_user).with(user, itinerary)
+        mailer_mock.should_receive(:deliver)
         subject.perform
       end
 
@@ -72,8 +74,19 @@ describe AddContributorToItinerary do
         subject.new_user.should == true
       end
 
+      it "adds the user to the contributor" do
+        subject.perform
+        contributor.user.should == user
+      end
+
+      it "adds the itinerary to the contributor" do
+        subject.perform
+        contributor.itinerary.should == itinerary
+      end
+
       it "sends a new user message to the user" do
         InvitationMailer.should_receive(:new_user).with(user, itinerary)
+        mailer_mock.should_receive(:deliver)
         subject.perform
       end
     end
