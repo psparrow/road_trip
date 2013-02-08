@@ -64,6 +64,8 @@ FactoryGirl.create(:administrator_role)
 FactoryGirl.create(:contributor_role)
 FactoryGirl.create(:read_only_role)
 
-ROLES = Role.all.each_with_object([]) do |role, roles|
-    roles[role.id] = role.title.downcase.gsub(/ /, '_').to_sym
-end
+ROLES = {
+  administrator: 1,
+  contributor:   2,
+  read_only:     3
+}

@@ -3,10 +3,8 @@ class StopsController < ApplicationController
   before_filter :load_itinerary, only: [:new, :create]
 
   def load_itinerary
-    id = params[:itinerary_id]
-
-    if security.can_add_stops?(id)
-      @itinerary = Itinerary.find(id)
+    if security.can_add_stops?(params[:itinerary_id])
+      @itinerary = Itinerary.find(params[:itinerary_id])
     else
       flash[:notice] = "You do not have permissions to add stops to this itinerary!"
       redirect_to itineraries_path

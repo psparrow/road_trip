@@ -9,7 +9,7 @@ class CreateNewItinerary
 
   def setup_administrator
     Contributor.create(
-      role_id:      ROLES.find_index(:administrator),
+      role_id:      ROLES[:administrator],
       user_id:      user.id,
       itinerary_id: itinerary.id
     )

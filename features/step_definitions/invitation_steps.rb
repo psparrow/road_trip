@@ -40,11 +40,6 @@ end
 
 And /^they cannot add stops to the itinerary$/ do
   page.should_not have_content "Add a Stop"
-
-  visit new_itinerary_stop_path(@itinerary)
-
-  page.current_path.should == itineraries_path
-  page.should have_content "You do not have permissions to add stops to this itinerary!"
 end
 
 And /^they can add stops to the itinerary$/ do

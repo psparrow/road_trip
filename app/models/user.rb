@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
+
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -29,8 +28,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.generate_username
+    "User#{count + 1}"
+  end
+
   def self.invite_by_email(email, skip_invitation = true)
-    invite!(email: email, username: "User#{count}") do |u|
+    invite!(email: email, username: generate_username) do |u|
       u.skip_invitation = skip_invitation
     end
   end

@@ -14,12 +14,7 @@ class AddContributorToItinerary
     contributor.user      = user
     contributor.itinerary = itinerary
 
-    if contributor.save
-      send_invitation
-      true
-    else
-      false
-    end
+    contributor.save && send_invitation
   end
 
   private
@@ -28,7 +23,7 @@ class AddContributorToItinerary
     if @user = User.find_by_email(email)
       @new_user = false
     else
-      @user = User.invite_by_email(email)
+      @user     = User.invite_by_email(email)
       @new_user = true
     end
   end

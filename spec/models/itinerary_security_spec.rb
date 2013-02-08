@@ -6,11 +6,15 @@ describe ItinerarySecurity do
 
   let(:user) { double("user") }
 
-  ROLES = [:role1, :role2, :role3]
+  ROLES = {
+    role1: 1,
+    role2: 2,
+    role3: 3
+  }
 
   let(:contributors) {[
-    double("contributor", itinerary_id: 42, role_id: ROLES.find_index(:role2)),
-    double("contributor", itinerary_id: 43, role_id: ROLES.find_index(:role3))
+    double("contributor", itinerary_id: 42, role_id: ROLES[:role2]),
+    double("contributor", itinerary_id: 43, role_id: ROLES[:role3])
   ]}
 
   context "#has_role_on_itinerary?" do

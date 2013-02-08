@@ -8,8 +8,4 @@ class ApplicationController < ActionController::Base
     @security = ItinerarySecurity.new(current_user)
   end
 
-  def itineraries_for_current_user
-    ItineraryFinder.new(current_user).all
-  end
-
 end

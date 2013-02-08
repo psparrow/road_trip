@@ -8,7 +8,7 @@ describe CreateNewItinerary do
   let(:user)        { double("user", id: 1) }
   let(:itinerary)   { OpenStruct.new(id: 42, save: true) }
 
-  ROLES = [:administrator]
+  ROLES = { administrator: 1 }
 
   context "#perform" do
 
@@ -28,7 +28,7 @@ describe CreateNewItinerary do
 
     it "makes the user an administrator on the itinerary" do
       Contributor.should_receive(:create).with(
-        role_id:      ROLES.find_index(:administrator),
+        role_id:      ROLES[:administrator],
         user_id:      user.id,
         itinerary_id: itinerary.id
       )
