@@ -3,7 +3,7 @@ class ItinerariesController < ApplicationController
   before_filter :load_itinerary, only: [:edit, :update]
 
   def index
-    @itineraries = current_user.itineraries
+    @itineraries = current_user.shared_itineraries
   end
 
   def new

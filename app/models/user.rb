@@ -9,8 +9,11 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me,
                   :authentication_keys => [:login]
 
-  has_many :itineraries, through: :contributors
+  has_many :itineraries
   has_many :contributors
+
+  has_many :shared_itineraries, :through => :contributors, :source => :itinerary
+
 
   validates :username,
     length:     { in: 2..20 },
