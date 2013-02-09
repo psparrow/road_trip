@@ -1,9 +1,21 @@
-class ItinerarySecurity
+class UserSecurity
 
   attr_reader :user
 
   def initialize(user)
     @user = user
+  end
+
+  def method_missing(meth, *args)
+    if user.respond_to?(meth)
+      user.send(meth, *args)
+    else
+      super
+    end
+  end
+
+  def respond_to?(meth)
+    user.respond_to?(meth)
   end
 
   def can_add_stops?(itinerary_id)
@@ -24,16 +36,10 @@ class ItinerarySecurity
   end
 
   def has_role_on_itinerary?(itinerary_id, *role_symbols)
-    user.contributors.any? { |contributor|
-      contributor.itinerary_id == itinerary_id.to_i &&
-        contributor_has_role?(contributor, role_symbols)
-    }
-  end
-
-  def contributor_has_role?(contributor, role_symbols)
-    role_symbols.find_index(
-      ROLES.invert[contributor.role_id]
-    )
+    user.contributors.find(:first, conditions: {
+      itinerary_id: itinerary_id,
+      role_id:      role_symbols.map { |symbol| ROLES[symbol] }
+    })
   end
 
 end

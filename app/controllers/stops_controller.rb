@@ -21,7 +21,7 @@ class StopsController < ApplicationController
   private
 
   def load_itinerary
-    if security.can_add_stops?(params[:itinerary_id])
+    if user.can_add_stops?(params[:itinerary_id])
       @itinerary = Itinerary.find(params[:itinerary_id])
     else
       flash[:notice] = "You do not have permissions to add stops to this itinerary!"

@@ -36,9 +36,9 @@ class ItinerariesController < ApplicationController
   end
 
   def show
-    if security.can_view?(params[:id])
+    if user.can_view?(params[:id])
       @itinerary     = Itinerary.find(params[:id])
-      @can_add_stops = security.can_add_stops?(params[:id])
+      @can_add_stops = user.can_add_stops?(params[:id])
     else
       flash[:notice] = "You can't view this!"
       redirect_to itineraries_path
