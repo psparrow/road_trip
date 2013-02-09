@@ -2,10 +2,6 @@ class ContributorsController < ApplicationController
 
   before_filter :load_itinerary
 
-  def load_itinerary
-    @itinerary = current_user.itineraries.find(params[:itinerary_id])
-  end
-
   def new
     @contributor = Contributor.new
   end
@@ -24,6 +20,12 @@ class ContributorsController < ApplicationController
     else
       render :new
     end
+  end
+
+  private
+
+  def load_itinerary
+    @itinerary = current_user.itineraries.find(params[:itinerary_id])
   end
 
 end

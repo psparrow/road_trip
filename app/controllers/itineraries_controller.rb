@@ -1,5 +1,7 @@
 class ItinerariesController < ApplicationController
 
+  before_filter :load_itinerary, only: [:edit, :update]
+
   def index
     @itineraries = ItineraryFinder.new(current_user).all
   end
@@ -20,12 +22,9 @@ class ItinerariesController < ApplicationController
   end
 
   def edit
-    @itinerary = current_user.itineraries.find(params[:id])
   end
 
   def update
-    @itinerary = current_user.itineraries.find(params[:id])
-
     if @itinerary.update_attributes(params[:itinerary])
       flash[:notice] = "The itinerary has been updated!"
       redirect_to itinerary_path(@itinerary)
@@ -44,4 +43,9 @@ class ItinerariesController < ApplicationController
     end
   end
 
+  private
+
+  def load_itinerary
+    @itinerary = current_user.itineraries.find(params[:id])
+  end
 end
