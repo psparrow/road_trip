@@ -1,19 +1,21 @@
 class ItinerariesController < ApplicationController
 
   before_filter :load_itinerary, only: [:edit, :update]
+  before_filter :new_itinerary,  only: [:new,  :create]
 
   def index
     @itineraries = current_user.shared_itineraries
   end
 
   def new
-    @itinerary = Itinerary.new
   end
 
   def create
-    @itinerary = Itinerary.new(params[:itinerary])
-
-    if CreateNewItinerary.new(@itinerary, current_user).perform
+    if @itinerary.save
+      @itinerary.contributors.create!(
+        role_id: ROLES[:administrator],
+        user:    current_user
+      )
       flash[:notice] = "Enjoy your trip!"
       redirect_to itineraries_path
     else
@@ -44,6 +46,10 @@ class ItinerariesController < ApplicationController
   end
 
   private
+
+  def new_itinerary
+    @itinerary = current_user.itineraries.build(params[:itinerary])
+  end
 
   def load_itinerary
     @itinerary = current_user.itineraries.find(params[:id])
