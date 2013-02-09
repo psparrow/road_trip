@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me,
                   :authentication_keys => [:login]
 
-  has_many :itineraries
+  has_many :itineraries, through: :contributors
   has_many :contributors
 
   validates :username,

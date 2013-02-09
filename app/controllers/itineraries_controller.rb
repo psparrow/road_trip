@@ -3,7 +3,7 @@ class ItinerariesController < ApplicationController
   before_filter :load_itinerary, only: [:edit, :update]
 
   def index
-    @itineraries = ItineraryFinder.new(current_user).all
+    @itineraries = current_user.itineraries
   end
 
   def new
