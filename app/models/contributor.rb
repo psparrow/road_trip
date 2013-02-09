@@ -1,5 +1,6 @@
 class Contributor < ActiveRecord::Base
-  attr_accessible :email, :itinerary_id, :user_id, :role_id
+  attr_accessible :email, :itinerary_id, :user_id, :role_id, :user, :itinerary
+
   attr_accessor   :email
 
   belongs_to      :user

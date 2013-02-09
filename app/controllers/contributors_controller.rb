@@ -7,14 +7,21 @@ class ContributorsController < ApplicationController
   end
 
   def create
-    @contributor = Contributor.new(params[:contributor])
+    email = params[:contributor][:email]
 
-    command = AddContributorToItinerary.new(
-      @contributor,
-      @itinerary
+    if user = User.find_by_email(email)
+      msg  = :existing_user
+    else
+      user = User.invite_by_email(email)
+      msg  = :new_user
+    end
+
+    @contributor = Contributor.new(
+      params[:contributor].merge(user: user, itinerary: @itinerary)
     )
 
-    if command.perform
+    if @contributor.save
+      InvitationMailer.send(msg, user, @itinerary).deliver
       flash[:notice] = "An invitation has been sent!"
       redirect_to @itinerary
     else
