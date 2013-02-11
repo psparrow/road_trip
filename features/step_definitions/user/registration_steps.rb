@@ -1,4 +1,3 @@
-
 Given /^that I am registering for an account$/ do
   go_to_sign_up_page
 end

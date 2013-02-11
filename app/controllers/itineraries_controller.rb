@@ -39,6 +39,7 @@ class ItinerariesController < ApplicationController
     if user.can_view?(params[:id])
       @itinerary     = Itinerary.find(params[:id])
       @can_add_stops = user.can_add_stops?(params[:id])
+      @can_edit      = user.can_edit?(params[:id])
     else
       flash[:notice] = "You can't view this!"
       redirect_to itineraries_path
@@ -52,6 +53,11 @@ class ItinerariesController < ApplicationController
   end
 
   def load_itinerary
-    @itinerary = current_user.itineraries.find(params[:id])
+    if user.can_edit?(params[:id])
+      @itinerary = current_user.shared_itineraries.find(params[:id])
+    else
+      flash[:notice] = "You cannot edit this itinerary!"
+      redirect_to itineraries_path
+    end
   end
 end

@@ -18,6 +18,13 @@ class UserSecurity
     user.respond_to?(meth)
   end
 
+  def can_edit?(itinerary_id)
+    has_role_on_itinerary?(
+      itinerary_id,
+      :administrator
+    )
+  end
+
   def can_add_stops?(itinerary_id)
     has_role_on_itinerary?(
       itinerary_id,

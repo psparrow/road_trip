@@ -2,6 +2,10 @@ def get_role_factory_key(role)
   role.downcase.gsub(/ /, '_') + '_role'
 end
 
+def get_role_symbol(role)
+  role.downcase.gsub(/ /, '_').to_sym
+end
+
 def go_to_sign_up_page
   visit root_path
   click_link "Sign up"
@@ -25,7 +29,7 @@ def verify_registration
   User.count.should == @user_count + 1
 
   user = User.last
-  user.email.should == @user.email
+  user.email.should    == @user.email
   user.username.should == @user.username
 end
 
