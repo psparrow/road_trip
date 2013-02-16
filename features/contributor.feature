@@ -30,4 +30,12 @@ Feature: Contributors with certain roles can perform certain actions on itinerar
       | Contributor   | cannot   |
       | Read Only     | cannot   |
 
-
+  Scenario Outline: Only Administrators can invite contributors
+    Given that I am a logged-in user
+    And I have the <role_type> role on an itinerary
+    Then I <can_invite> invite contributors to the itinerary
+    Examples:
+      | role_type     | can_invite |
+      | Administrator | can      |
+      | Contributor   | cannot   |
+      | Read Only     | cannot   |

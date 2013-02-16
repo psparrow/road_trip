@@ -70,3 +70,29 @@ And /^I can add stops to the itinerary$/ do
   page.should have_content(attr[:city])
   page.should have_content(attr[:state])
 end
+
+Then /^I can invite contributors to the itinerary$/ do
+  visit itinerary_path(@itinerary)
+
+  click_link "Send Invitation"
+
+  @contributor_email = FactoryGirl.build(:user).email
+
+  fill_in "Email",     with: @contributor_email
+  select  "Read Only", from: "Role"
+
+  click_button "Send"
+
+  contributor = Contributor.last
+  user        = User.last
+
+  contributor.itinerary_id.should == @itinerary.id
+  contributor.user_id.should      == user.id
+  user.email.should               == @contributor_email
+end
+
+Then /^I cannot invite contributors to the itinerary$/ do
+  visit itinerary_path(@itinerary)
+
+  page.should_not have_content "Send Invitation"
+end

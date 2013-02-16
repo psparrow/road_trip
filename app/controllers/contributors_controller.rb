@@ -34,7 +34,12 @@ class ContributorsController < ApplicationController
   end
 
   def load_itinerary
-    @itinerary = current_user.itineraries.find(params[:itinerary_id])
+    if user.can_invite_to?(params[:itinerary_id])
+      @itinerary = current_user.shared_itineraries.find(params[:itinerary_id])
+    else
+      flash[:notice] = "You do not have permission to access this feature!"
+      redirect_to itineraries_path
+    end
   end
 
 end

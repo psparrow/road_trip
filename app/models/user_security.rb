@@ -25,6 +25,8 @@ class UserSecurity
     )
   end
 
+  alias_method :can_invite_to?, :can_edit?
+
   def can_add_stops?(itinerary_id)
     has_role_on_itinerary?(
       itinerary_id,
