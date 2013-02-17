@@ -35,6 +35,8 @@ class UserSecurity
     )
   end
 
+  alias_method :can_reorder_stops?, :can_add_stops?
+
   def can_view?(itinerary_id)
     has_role_on_itinerary?(
       itinerary_id,

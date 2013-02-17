@@ -96,3 +96,57 @@ Then /^I cannot invite contributors to the itinerary$/ do
 
   page.should_not have_content "Send Invitation"
 end
+
+And /^the itinerary has multiple stops$/ do
+  @stop1 = FactoryGirl.create(:stop, user: @user, itinerary: @itinerary, title: "Stop 1")
+  @stop2 = FactoryGirl.create(:stop, user: @user, itinerary: @itinerary, title: "Stop 2")
+end
+
+When /^I view the itinerary$/ do
+  visit itinerary_path(@itinerary)
+end
+
+Then /^I can move stops down$/ do
+  within(".stop-1") do
+    click_link "move down"
+  end
+
+  page.body.index(@stop1.title).should be < page.body.index(@stop2.title)
+end
+
+Then /^I can move stops up$/ do
+  within(".stop-2") do
+    click_link "move up"
+  end
+
+  page.body.index(@stop2.title).should be < page.body.index(@stop1.title)
+end
+
+Then /^I can move stops to the top$/ do
+  within(".stop-2") do
+    click_link "move to top"
+  end
+
+  page.body.index(@stop2.title).should be < page.body.index(@stop1.title)
+end
+
+Then /^I can move stops to the bottom$/ do
+  within(".stop-1") do
+    click_link "move to bottom"
+  end
+
+  page.body.index(@stop1.title).should be < page.body.index(@stop2.title)
+end
+
+Then /^I cannot move stops (.*)$/ do |type|
+  case type
+  when "up"
+    page.should_not have_content "move up"
+  when "down"
+    page.should_not have_content "move down"
+  when "to the top"
+    page.should_not have_content "move to top"
+  when "to the bottom"
+    page.should_not have_content "move to bottom"
+  end
+end

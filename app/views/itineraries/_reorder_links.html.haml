@@ -1,0 +1,9 @@
+%ul
+  %li
+    = link_to "move down", reorder_stop_path(stop, "down"), method: :put
+  %li
+    = link_to "move up", reorder_stop_path(stop, "up"), method: :put
+  %li
+    = link_to "move to bottom", reorder_stop_path(stop, "bottom"), method: :put
+  %li
+    = link_to "move to top", reorder_stop_path(stop, "top"), method: :put

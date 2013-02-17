@@ -9,6 +9,10 @@ RoadTrip::Application.routes.draw do
     end
   end
 
+  match "/reorder_stop/:id/:type" => "reorder_stops#update",
+    :via => :put,
+    :as  => "reorder_stop"
+
   root to: "home#index"
 
 end

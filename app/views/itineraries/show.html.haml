@@ -7,12 +7,21 @@
 %h3
   Stops
 
-- @itinerary.stops.each do |stop|
-  %div
-    = stop.title
-    = stop.description
-    = stop.city + " " + stop.state + " " + stop.zip_code
-    = link_to "More info", stop.url
+- @itinerary.stops.each_with_index do |stop, index|
+  %div{class: "stop-#{index+1}"}
+    %h4
+      = stop.title
+    %p
+      = stop.description
+
+    %div{class: "address"}
+      = format_address(stop)
+
+    %p
+      = link_to "More info", stop.url
+
+    - if @can_reorder_stops
+      = render partial: "reorder_links", locals: { stop: stop }
 
 - if @can_add_stops
   %p

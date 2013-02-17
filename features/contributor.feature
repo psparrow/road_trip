@@ -36,6 +36,22 @@ Feature: Contributors with certain roles can perform certain actions on itinerar
     Then I <can_invite> invite contributors to the itinerary
     Examples:
       | role_type     | can_invite |
-      | Administrator | can      |
-      | Contributor   | cannot   |
-      | Read Only     | cannot   |
+      | Administrator | can        |
+      | Contributor   | cannot     |
+      | Read Only     | cannot     |
+
+  Scenario Outline: Admins and Contributors can reorder stops
+    Given that I am a logged-in user
+    And I have the <role_type> role on an itinerary
+    And the itinerary has multiple stops
+    When I view the itinerary
+    Then I <can_reorder_stops> move stops up
+    And I <can_reorder_stops> move stops down
+    And I <can_reorder_stops> move stops to the top
+    And I <can_reorder_stops> move stops to the bottom
+
+    Examples:
+      | role_type     | can_reorder_stops |
+      | Administrator | can               |
+      | Contributor   | can               |
+      | Read Only     | cannot            |

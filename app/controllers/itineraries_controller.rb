@@ -40,6 +40,7 @@ class ItinerariesController < ApplicationController
       @itinerary     = Itinerary.find(params[:id])
       @can_add_stops = user.can_add_stops?(params[:id])
       @can_edit      = user.can_edit?(params[:id])
+      @can_reorder_stops = user.can_reorder_stops?(params[:id])
     else
       flash[:notice] = "You can't view this!"
       redirect_to itineraries_path
