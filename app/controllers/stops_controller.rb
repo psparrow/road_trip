@@ -16,23 +16,30 @@ class StopsController < ApplicationController
   end
 
   def new
-    @path = [@itinerary, @itinerary.stops.build]
+    set_form_path
   end
 
   def create
-    @stop = @itinerary.stops.build(
+    stop = @itinerary.stops.build(
       params[:stop].merge(user_id: current_user.id)
     )
 
-    if @stop.save
+    if stop.save
       flash[:notice] = "Sounds like fun!"
       redirect_to itinerary_path(@itinerary)
     else
+      set_form_path(stop)
       render :new
     end
   end
 
   private
+
+  def set_form_path(stop = nil)
+    stop ||=  @itinerary.stops.build
+
+    @path = [@itinerary, stop]
+  end
 
   def load_itinerary
     if user.can_add_stops?(params[:itinerary_id])
