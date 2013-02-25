@@ -23,7 +23,6 @@ When /^I add a stop to the itinerary$/ do
 end
 
 Then /^it is listed in the stops$/ do
-
   Stop.count.should == @stop_count + 1
 
   page.should have_content(@attr[:title])
@@ -31,7 +30,21 @@ Then /^it is listed in the stops$/ do
   page.should have_content(@stop_attr[:description])
   page.should have_content(@stop_attr[:city])
   page.should have_content(@stop_attr[:state])
+end
 
-  click_link "More info"
-  page.current_url.should have_content(@stop_attr[:url])
+When /^I edit that stop$/ do
+  click_link "Edit this stop"
+
+  fill_in "Description", with: "New Description"
+
+  click_button "Save"
+end
+
+Then /^it is updated$/ do
+  stop = Stop.last
+
+  page.current_path.should == itinerary_path(stop.itinerary)
+
+  page.should have_content("The stop has been updated")
+  page.should have_content("New Description")
 end

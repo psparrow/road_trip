@@ -49,9 +49,9 @@ Feature: Contributors with certain roles can perform certain actions on itinerar
     And I <can_reorder_stops> move stops down
     And I <can_reorder_stops> move stops to the top
     And I <can_reorder_stops> move stops to the bottom
-
     Examples:
       | role_type     | can_reorder_stops |
       | Administrator | can               |
       | Contributor   | can               |
       | Read Only     | cannot            |
+

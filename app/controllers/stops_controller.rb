@@ -1,8 +1,22 @@
 class StopsController < ApplicationController
 
-  before_filter :load_itinerary
+  before_filter :load_itinerary, only: [:new, :create]
+  before_filter :load_stop,      only: [:edit, :update]
+
+  def edit
+  end
+
+  def update
+    if @stop.update_attributes(params[:stop])
+      flash[:notice] = "The stop has been updated!"
+      redirect_to itinerary_path(@stop.itinerary)
+    else
+      render :edit
+    end
+  end
 
   def new
+    @path = [@itinerary, @itinerary.stops.build]
   end
 
   def create
@@ -12,7 +26,7 @@ class StopsController < ApplicationController
 
     if @stop.save
       flash[:notice] = "Sounds like fun!"
-      redirect_to @itinerary
+      redirect_to itinerary_path(@itinerary)
     else
       render :new
     end
@@ -27,6 +41,10 @@ class StopsController < ApplicationController
       flash[:notice] = "You do not have permissions to add stops to this itinerary!"
       redirect_to itineraries_path
     end
+  end
+
+  def load_stop
+    @stop = @path = current_user.stops.find(params[:id])
   end
 
 end

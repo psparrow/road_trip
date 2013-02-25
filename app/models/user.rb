@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
 
   has_many :itineraries
   has_many :contributors
+  has_many :stops
 
   has_many :shared_itineraries, :through => :contributors, :source => :itinerary
-
 
   validates :username,
     length:     { in: 2..20 },

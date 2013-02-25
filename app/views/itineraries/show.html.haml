@@ -17,8 +17,13 @@
     %div{class: "address"}
       = format_address(stop)
 
-    %p
-      = link_to "More info", stop.url
+    - if !stop.url.empty?
+      %p
+        = link_to "More info", stop.url
+
+    - if stop.user_id == current_user.id
+      %p
+        = link_to "Edit this stop", edit_stop_path(stop)
 
     - if @can_reorder_stops
       = render partial: "reorder_links", locals: { stop: stop }

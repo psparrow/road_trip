@@ -5,3 +5,6 @@ Feature: Itinerary Stops
     And that I have an itinerary
     When I add a stop to the itinerary
     Then it is listed in the stops
+    When I edit that stop
+    Then it is updated
+
